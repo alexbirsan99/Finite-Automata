@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Sketch from 'react-p5';
 
-function App() {
+const App = () => {
+
+  useEffect(() => {
+    document.title = 'Finite Automata';
+  });
+
+  let setup = (p5:any, parent:any) => {
+    p5.createCanvas(p5.displayWidth, p5.displayHeight).parent(parent);
+  }
+
+
+  let draw = (p5:any) => {
+    p5.circle(50,50, 80)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Sketch setup={setup} draw = {draw} />
     </div>
   );
 }
