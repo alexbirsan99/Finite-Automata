@@ -4,10 +4,13 @@ import './App.css';
 import Sketch from 'react-p5';
 import State from './objects/state';
 import { clear } from 'console';
+import StateLink from './objects/state-link';
 
 const App = () => {
 
   let states: State[] = [];
+
+  let stateLinks: StateLink[] = [];
 
   let stateSelected: any;
 
@@ -23,17 +26,22 @@ const App = () => {
 
   let draw = (p5: any) => {
     states.forEach(element => {
-      if (element.hoverOnState(p5.mouseX, p5.mouseY)) {
+      if (element.isAbove(p5.mouseX, p5.mouseY)) {
         element.draw('rgb(0,255,255)');
       } else {
         element.draw();
       }
     });
+
+    stateLinks.forEach(element => {
+      element.draw();
+    });
+
   }
 
   let mousePressed = (p5: any) => {
     states.forEach(element => {
-      if (element.hoverOnState(p5.mouseX, p5.mouseY)) {
+      if (element.isAbove(p5.mouseX, p5.mouseY)) {
         stateSelected = element;
       }
     });
@@ -42,7 +50,7 @@ const App = () => {
   let mouseDragged = (p5:any) => {
     p5.clear();
     states.forEach(element => {
-      if (element.hoverOnState(p5.mouseX, p5.mouseY)) {
+      if (element.isAbove(p5.mouseX, p5.mouseY)) {
         if(element === stateSelected) {
           element.x = p5.mouseX;
           element.y = p5.mouseY;
@@ -57,7 +65,13 @@ const App = () => {
 
   let buildStates = (p5: any) => {
     for (let i = 0; i < 5; i++) {
-      states.push(new State(p5, 200 + (100 * i), 200 + (100 * i), i.toString()));
+      let state = new State(p5, 300 + (200 * i), 200, i.toString());
+      states.push(state);
+
+      // e doar pt testare
+      if(i === 2) {
+        stateLinks.push(new StateLink(p5, states[i-1], state));
+      }
     }
   }
 
