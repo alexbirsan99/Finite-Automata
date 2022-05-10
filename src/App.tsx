@@ -47,11 +47,11 @@ const App = () => {
     });
   }
 
-  let mouseDragged = (p5:any) => {
+  let mouseDragged = (p5: any) => {
     p5.clear();
-    states.forEach(element => {
-      if (element.isAbove(p5.mouseX, p5.mouseY)) {
-        if(element === stateSelected) {
+    states.forEach((element, index) => {
+      if (element.isAbove(p5.mouseX, p5.mouseY) && element.isColliding(p5.mouseX, p5.mouseY, states)) {
+        if (element === stateSelected) {
           element.x = p5.mouseX;
           element.y = p5.mouseY;
         }
@@ -59,7 +59,7 @@ const App = () => {
     });
   }
 
-  let mousedReleased = (p5:any) => {
+  let mousedReleased = (p5: any) => {
     stateSelected = null;
   }
 
@@ -69,15 +69,15 @@ const App = () => {
       states.push(state);
 
       // e doar pt testare
-      if(i === 2) {
-        stateLinks.push(new StateLink(p5, states[i-1], state));
+      if (i === 2) {
+        stateLinks.push(new StateLink(p5, states[i - 1], state, true));
       }
     }
   }
 
   return (
     <div>
-      <Sketch setup={setup} draw={draw} mouseReleased = {mousedReleased} mouseDragged = {mouseDragged} mousePressed={mousePressed} />
+      <Sketch setup={setup} draw={draw} mouseReleased={mousedReleased} mouseDragged={mouseDragged} mousePressed={mousePressed} />
     </div>
   );
 }
