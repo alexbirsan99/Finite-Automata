@@ -50,7 +50,7 @@ const App = () => {
   let mouseDragged = (p5: any) => {
     p5.clear();
     states.forEach((element, index) => {
-      if (element.isAbove(p5.mouseX, p5.mouseY) && element.isColliding(p5.mouseX, p5.mouseY, states)) {
+      if (element.isAbove(p5.mouseX, p5.mouseY)) {
         if (element === stateSelected) {
           element.x = p5.mouseX;
           element.y = p5.mouseY;
