@@ -1,12 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Sketch from 'react-p5';
 import State from './objects/state';
 import { clear } from 'console';
 import StateLink from './objects/state-link';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/esm/Modal';
 
 const App = () => {
+
+  let [showSettings, setShowSettings] = useState(false);
 
   let states: State[] = [];
 
@@ -25,18 +29,17 @@ const App = () => {
 
 
   let draw = (p5: any) => {
-    states.forEach(element => {
-      if (element.isAbove(p5.mouseX, p5.mouseY)) {
-        element.draw('rgb(0,255,255)');
-      } else {
-        element.draw();
-      }
-    });
-
     stateLinks.forEach(element => {
       element.draw();
     });
 
+    states.forEach(element => {
+      if (element.isAbove(p5.mouseX, p5.mouseY) && stateSelected === element) {
+        element.draw('#99cc00');
+      } else {
+        element.draw();
+      }
+    });
   }
 
   let mousePressed = (p5: any) => {
@@ -78,6 +81,26 @@ const App = () => {
   return (
     <div>
       <Sketch setup={setup} draw={draw} mouseReleased={mousedReleased} mouseDragged={mouseDragged} mousePressed={mousePressed} />
+      <Button onClick={() => setShowSettings(true)} variant="primary" size="lg" className="btn-primary configure-btn">
+        Configureaza
+      </Button>
+
+      <Modal show={showSettings}>
+        <Modal.Header closeButton onClick={() => setShowSettings(false)}>
+          <Modal.Title>Configureaza automatismul</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Weeb
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowSettings(false)}>
+            Renunta
+          </Button>
+          <Button variant="primary" onClick={() => setShowSettings(false)}>
+            Aplica
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

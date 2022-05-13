@@ -9,7 +9,7 @@ toState: State;
 
 p5: any;
 
-arrowSize = 20;
+arrowSize = 25;
 
 curved: boolean;
 
@@ -134,7 +134,8 @@ buildCurve(fromStateCoords: any, toStateCoords: any, arrowFirstPointCoord:any, a
         this.p5.push(),
         this.p5.translate(firstControlPoint.x, firstControlPoint.y),
         this.p5.rotate(theta),
-        this.p5.fill('black'),
+        this.p5.fill('#adb5bd'),
+        this.p5.stroke('#6c757d'),
         this.p5.triangle(arrowFirstPointCoord.x, arrowFirstPointCoord.y, arrowSecondPointCoord.x, arrowSecondPointCoord.y, arrowThirdPointCoord.x, arrowThirdPointCoord.y),
         this.p5.noFill(),
         this.p5.pop()

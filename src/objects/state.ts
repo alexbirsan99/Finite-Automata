@@ -25,15 +25,18 @@ export default class State {
 
     draw(color?:string) {
         return [
-            color ? [this.p5.stroke(color), this.p5.strokeWeight(3)] : [this.p5.stroke('black'), this.p5.strokeWeight(1)],
-            this.p5.fill('white'),
+            //color ? [this.p5.stroke(color), this.p5.strokeWeight(3)] : [this.p5.stroke('black'), this.p5.strokeWeight(1)],
+            color ? [this.p5.fill(color), this.p5.stroke(color)] : [this.p5.fill('white'), this.p5.stroke('black')],
+            //this.p5.fill('white'),
+            this.p5.strokeWeight(3),
             this.p5.circle(this.x,this.y, this.diamater),
+            this.p5.strokeWeight(1),
             this.p5.textSize(32),
             this.p5.fill('black'),
             this.p5.text('q', this.x - 16, this.y + 10),
-            this.p5.noFill(),
             this.p5.textSize(16),
             this.p5.text(this.stateName, this.x + 4, this.y + 16),
+            this.p5.noFill(),
         ];
     }
 
