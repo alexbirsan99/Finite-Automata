@@ -7,6 +7,7 @@ import { clear } from 'console';
 import StateLink from './objects/state-link';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/esm/Modal';
+import { Configure } from './UI/ConfigureModal';
 
 const App = () => {
 
@@ -90,7 +91,7 @@ const App = () => {
           <Modal.Title>Configureaza automatismul</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Weeb
+          <Configure/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowSettings(false)}>
