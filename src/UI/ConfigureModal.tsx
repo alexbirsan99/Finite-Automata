@@ -8,18 +8,18 @@ export const Configure = () => {
 
     function buildTableHeader() {
         let headers = [];
-        headers.push(<th style={{textAlign: 'center'}}></th>)
-        for(let i = 0; i < noStates; i++) {
-            headers.push(<th style={{textAlign: 'center'}}>{`q${i}`}</th>);
+        headers.push(<th style={{ textAlign: 'center' }}></th>)
+        for (let i = 0; i < noStates; i++) {
+            headers.push(<th style={{ textAlign: 'center' }}>{`q${i}`}</th>);
         }
         return headers;
     }
 
     function buildTableCells() {
         let cells = [];
-        for(let i = 0; i < noStates; i++) {
+        for (let i = 0; i < noStates; i++) {
             cells.push(
-                <td><input type = 'text' className = 'form-control'></input></td>
+                <td><input type='text' className='form-control'></input></td>
             );
         }
         return cells;
@@ -28,7 +28,7 @@ export const Configure = () => {
     function buildTableRows() {
         let rows = [];
 
-        for(let i = 0; i < noStates; i++) {
+        for (let i = 0; i < noStates; i++) {
             rows.push(
                 <tr>
                     <th>{`q${i}`}</th>
@@ -41,29 +41,33 @@ export const Configure = () => {
     }
 
 
-    return(
+    return (
         <div>
             <label>Numar stari</label>
-            <input onChange={(element) => setNoStates(element.target.value as unknown as number)}  id='noStates' min={0} placeholder='Introdu numarul...' type={'number'} className = "form-control"/>
+            <input onChange={(element) => setNoStates(element.target.value as unknown as number)} id='noStates' min={0} placeholder='Introdu numarul...' type={'number'} className="form-control" />
 
-            <br/>
+            <br />
 
             <label>Numarul starii initiale</label>
-            <input id='initalState' min={0} placeholder='Introdu starea...' type={'number'} className = "form-control"/>
+            <input id='initalState' min={0} placeholder='Introdu starea...' type={'number'} className="form-control" />
 
-            <br/>
+            <br />
 
             <label>Numarul starii finale</label>
-            <input id='finalState' min={0} placeholder='Introdu starea...' type={'number'} className = "form-control"/>
+            <input id='finalState' min={0} placeholder='Introdu starea...' type={'number'} className="form-control" />
 
-            <br/>
+            <br />
 
             <table>
-                <tr>
-                    {buildTableHeader()}
-                </tr>
+                <thead>
+                    <tr>
+                        {buildTableHeader()}
+                    </tr>
+                </thead>
 
-                {buildTableRows()}
+                <tbody>
+                    {buildTableRows()}
+                </tbody>
             </table>
         </div>
     );

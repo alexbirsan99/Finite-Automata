@@ -13,9 +13,9 @@ const App = () => {
 
   let [showSettings, setShowSettings] = useState(false);
 
-  let states: State[] = [];
+  let states = useRef([] as State[]);
 
-  let stateLinks: StateLink[] = [];
+  let stateLinks= useRef([] as StateLink[]);
 
   let stateSelected: any;
 
@@ -30,11 +30,12 @@ const App = () => {
 
 
   let draw = (p5: any) => {
-    stateLinks.forEach(element => {
+    console.log(states);
+    stateLinks.current.forEach(element => {
       element.draw();
     });
 
-    states.forEach(element => {
+    states.current.forEach(element => {
       if (element.isAbove(p5.mouseX, p5.mouseY) && stateSelected === element) {
         element.draw('#99cc00');
       } else {
@@ -44,7 +45,7 @@ const App = () => {
   }
 
   let mousePressed = (p5: any) => {
-    states.forEach(element => {
+    states.current.forEach(element => {
       if (element.isAbove(p5.mouseX, p5.mouseY)) {
         stateSelected = element;
       }
@@ -53,7 +54,7 @@ const App = () => {
 
   let mouseDragged = (p5: any) => {
     p5.clear();
-    states.forEach((element, index) => {
+    states.current.forEach((element, index) => {
       if (element.isAbove(p5.mouseX, p5.mouseY)) {
         if (element === stateSelected) {
           element.x = p5.mouseX;
@@ -70,11 +71,11 @@ const App = () => {
   let buildStates = (p5: any) => {
     for (let i = 0; i < 5; i++) {
       let state = new State(p5, 300 + (200 * i), 200, i.toString());
-      states.push(state);
+      states.current.push(state);
 
       // e doar pt testare
       if (i === 2) {
-        stateLinks.push(new StateLink(p5, states[i - 1], state, true));
+        stateLinks.current.push(new StateLink(p5, states.current[i - 1], state, true));
       }
     }
   }
@@ -82,26 +83,28 @@ const App = () => {
   return (
     <div>
       <Sketch setup={setup} draw={draw} mouseReleased={mousedReleased} mouseDragged={mouseDragged} mousePressed={mousePressed} />
-      <Button onClick={() => setShowSettings(true)} variant="primary" size="lg" className="btn-primary configure-btn">
-        Configureaza
-      </Button>
+      <div>
+        <Button onClick={() => setShowSettings(true)} variant="primary" size="lg" className="btn-primary configure-btn">
+          Configureaza
+        </Button>
 
-      <Modal show={showSettings}>
-        <Modal.Header closeButton onClick={() => setShowSettings(false)}>
-          <Modal.Title>Configureaza automatismul</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Configure/>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowSettings(false)}>
-            Renunta
-          </Button>
-          <Button variant="primary" onClick={() => setShowSettings(false)}>
-            Aplica
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <Modal show={showSettings}>
+          <Modal.Header closeButton onClick={() => setShowSettings(false)}>
+            <Modal.Title>Configureaza automatismul</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Configure />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowSettings(false)}>
+              Renunta
+            </Button>
+            <Button variant="primary" onClick={() => setShowSettings(false)}>
+              Aplica
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 }
