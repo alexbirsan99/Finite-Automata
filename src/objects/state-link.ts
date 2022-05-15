@@ -11,13 +11,18 @@ p5: any;
 
 arrowSize = 25;
 
+fontSize = 26;
+
 curved: boolean;
 
-constructor(p5: any, fromState: State, toState: State, curved: boolean) {
+linkName:string;
+
+constructor(p5: any, fromState: State, toState: State, curved: boolean, linkName:string) {
     this.fromState = fromState;
     this.toState = toState;
     this.p5 = p5;
     this.curved = curved;
+    this.linkName = linkName;
 }
 
 
@@ -64,22 +69,36 @@ calculateAngleBetweenTwoPoints(x1: number, y1: number, x2: number, y2: number) {
 buildLine(fromStateCoords: any, toStateCoords: any, arrowFirstPointCoord:any, arrowSecondPointCoord:any, arrowThirdPointCoord:any) {
     const theta = this.calculateAngleBetweenTwoPoints(fromStateCoords.x, fromStateCoords.y, toStateCoords.x, toStateCoords.y);
 
-    return [            
+    return [
+
+        this.p5.line(fromStateCoords.x, fromStateCoords.y, toStateCoords.x, toStateCoords.y),
+
+    
         // creare arrow si colorarea cu negru a acesteia
         this.p5.fill('black'),
         // transpunere punct de rotatie
         this.p5.push(),
         this.p5.translate((toStateCoords.x + fromStateCoords.x) / 2, (toStateCoords.y + fromStateCoords.y) / 2),
+
+        // nume state link
+        this.p5.strokeWeight(0),
+        this.p5.fill('black'),
+        this.p5.textSize(26),
+        this.p5.text(this.linkName, -20, -this.arrowSize),
+
         // rotire varf sageata
         this.p5.rotate(theta),
         // creare varful sagetii
+        this.p5.fill('#adb5bd'),
+        this.p5.strokeWeight(2),
+        this.p5.stroke('#6c757d'),
         this.p5.triangle(arrowFirstPointCoord.x, arrowFirstPointCoord.y, arrowSecondPointCoord.x, arrowSecondPointCoord.y, arrowThirdPointCoord.x, arrowThirdPointCoord.y),
+        this.p5.noFill(),
         this.p5.pop(),
 
 
 
         this.p5.noFill(),
-        this.p5.line(fromStateCoords.x, fromStateCoords.y, toStateCoords.x, toStateCoords.y),
     ]
 }
 
@@ -88,8 +107,6 @@ buildCurve(fromStateCoords: any, toStateCoords: any, arrowFirstPointCoord:any, a
     const theta = this.calculateAngleBetweenTwoPoints(fromStateCoords.x, fromStateCoords.y, toStateCoords.x, toStateCoords.y);
 
 
-    // pentru reverese
-    //const theta = this.calculateAngleBetweenTwoPoints(toStateCoords.x, toStateCoords.y, fromStateCoords.x, fromStateCoords.y);
     
     const firstControlPoint = {
         x: (fromStateCoords.x + toStateCoords.x) / 2,
@@ -135,9 +152,16 @@ buildCurve(fromStateCoords: any, toStateCoords: any, arrowFirstPointCoord:any, a
         this.p5.translate(firstControlPoint.x, firstControlPoint.y),
         this.p5.rotate(theta),
         this.p5.fill('#adb5bd'),
+        this.p5.strokeWeight(2),
         this.p5.stroke('#6c757d'),
         this.p5.triangle(arrowFirstPointCoord.x, arrowFirstPointCoord.y, arrowSecondPointCoord.x, arrowSecondPointCoord.y, arrowThirdPointCoord.x, arrowThirdPointCoord.y),
         this.p5.noFill(),
+
+        // nume state link
+        this.p5.strokeWeight(0),
+        this.p5.fill('black'),
+        this.p5.textSize(26),
+        this.p5.text(this.linkName, arrowCenter.x - 20, arrowCenter.y - this.arrowSize),
         this.p5.pop()
     ]
 }
