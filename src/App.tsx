@@ -70,7 +70,12 @@ const App = () => {
 
   let buildStates = (p5: any) => {
     for (let i = 0; i < 5; i++) {
-      let state = new State(p5, 300 + (200 * i), 200, i.toString());
+      let state;
+      if(i === 0) {
+        state = new State(p5, 300 + (200 * i), 200, i.toString(), true, false);
+      } else {
+        state = new State(p5, 300 + (200 * i), 200, i.toString(), false, false)
+      }
       states.current.push(state);
 
       // e doar pt testare
