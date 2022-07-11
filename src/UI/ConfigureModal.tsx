@@ -1,7 +1,9 @@
 import { sensitiveHeaders } from 'http2';
 import React, { useEffect, useRef, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/esm/Modal';
 
-export const Configure = () => {
+export const Configure = (props:{showSettings:boolean, onClose:Function, onGenerate:Function}) => {
 
     const [noStates, setNoStates] = useState(0);
 
@@ -42,33 +44,36 @@ export const Configure = () => {
 
 
     return (
-        <div>
-            <label>Numar stari</label>
-            <input onChange={(element) => setNoStates(element.target.value as unknown as number)} id='noStates' min={0} placeholder='Introdu numarul...' type={'number'} className="form-control" />
+        <Modal show={props.showSettings}>
+            <Modal.Header closeButton onClick = {() => props.onClose()}>
+                <Modal.Title>Configureaza automatismul</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div>
+                    <label>Numar stari</label>
+                    <input onChange={(element) => setNoStates(element.target.value as unknown as number)} id='noStates' min={0} placeholder='Introdu numarul...' type={'number'} className="form-control" />
 
-            <br />
+                    {/* <table>
+                        <thead>
+                            <tr>
+                                {buildTableHeader()}
+                            </tr>
+                        </thead>
 
-            <label>Numarul starii initiale</label>
-            <input id='initalState' min={0} placeholder='Introdu starea...' type={'number'} className="form-control" />
-
-            <br />
-
-            <label>Numarul starii finale</label>
-            <input id='finalState' min={0} placeholder='Introdu starea...' type={'number'} className="form-control" />
-
-            <br />
-
-            <table>
-                <thead>
-                    <tr>
-                        {buildTableHeader()}
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {buildTableRows()}
-                </tbody>
-            </table>
-        </div>
+                        <tbody>
+                            {buildTableRows()}
+                        </tbody>
+                    </table> */}
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick = {() => props.onClose()}>
+                    Renunta
+                </Button>
+                <Button variant="primary" onClick = {() => props.onGenerate(noStates)}>
+                    Generează automatism determinist aleator
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 }
