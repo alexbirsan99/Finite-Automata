@@ -5,9 +5,9 @@ import Sketch from 'react-p5';
 import State from './objects/state';
 import StateLink from './objects/state-link';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/esm/Modal';
 import { Configure } from './UI/ConfigureModal';
 import p5 from 'p5';
+import { Utils } from './objects/utils';
 
 const App = () => {
 
@@ -28,7 +28,12 @@ const App = () => {
   useEffect(() => {
     document.title = 'Finite Automata';
 
-    hasBeenGenerated ? buildStates() : null;
+    if(hasBeenGenerated === true) {
+      p5Var ? p5Var.clear() : null;
+      states.current = Utils.generateStates(noOfStates, p5Var);
+      stateLinks.current = Utils.generateLinks(states.current, p5Var);
+      setHasBeenGenerated(false); 
+    }
   });
 
   let setup = (p5: any, parent: any) => {
@@ -37,9 +42,7 @@ const App = () => {
 
 
   let draw = (p5: any) => {
-    console.log('trigger');
     setP5Var(p5 as any);
-    //console.log(states);
     stateLinks.current.forEach(element => {
       element.draw();
     });
@@ -92,17 +95,6 @@ const App = () => {
         stateLinks.current.push(new StateLink(p5, states.current[i - 1], state, false, 'ab'));
       }
     }
-  }
-
-  let buildStates = () => {
-
-    p5Var ? p5Var.clear() : null;
-
-    states.current = [];
-    for(let i = 0; i < noOfStates; i++) {
-      states.current.push(new State(p5Var, 300 + (200 * i), 200, i.toString(), false, false));
-    }
-    setHasBeenGenerated(false);
   }
 
   return (
