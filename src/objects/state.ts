@@ -8,6 +8,10 @@ export default class State {
 
     y: number;
 
+    noLinksExit:number = 0;
+
+    noLinksEnter:number = 0;
+
     isInitialState: boolean;
 
     isFinalState: boolean;
@@ -111,5 +115,4 @@ export default class State {
             this.p5.noFill(),
         ]
     }
-
 }

@@ -92,7 +92,7 @@ const App = () => {
 
       // e doar pt testare
       if (i === 2) {
-        stateLinks.current.push(new StateLink(p5, states.current[i - 1], state, false, 'ab'));
+        stateLinks.current.push(new StateLink(p5, states.current[i - 1], state, 'ab'));
       }
     }
   }

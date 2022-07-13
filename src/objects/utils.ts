@@ -33,10 +33,12 @@ export abstract class Utils {
              * daca e mai mica decat MAXIMUM_LINKS, atunci nr de state-uri disponibile, va fi noul numar de state-uri maxime
              * cand calculam nr de state-uri disponibile, luam in calcul si state-ul insusi
              */
-            let noOfLinks = Math.floor(this.clampNumber(Math.random() * this.MAXIMUM_LINKS, 2, this.MAXIMUM_LINKS - 1));
+            let numberOfPossibleLinks = states.length - states[i].noLinksExit;
+            let maximumLinks = numberOfPossibleLinks < this.MAXIMUM_LINKS ? numberOfPossibleLinks + 1 : this.MAXIMUM_LINKS;
+            let noOfLinks = Math.floor(this.clampNumber(Math.random() * maximumLinks, 2, maximumLinks - 1))
             for(let j = 0; j < noOfLinks; j++) {
                 let toStateIndex = Math.floor(Math.random() * statesShuffled.length);
-                let newStateLink = new StateLink(p5, states[i], statesShuffled[toStateIndex], true, j === 0 ? 'a' : 'b');
+                let newStateLink = new StateLink(p5, states[i], statesShuffled[toStateIndex], j % 2 === 0 ? 'a' : 'b');
                 if(!this.stateLinkExists(stateLinks, newStateLink)) {
                     stateLinks.push(newStateLink);
                 } else {

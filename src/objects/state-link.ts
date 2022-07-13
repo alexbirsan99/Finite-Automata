@@ -17,12 +17,14 @@ export default class StateLink {
 
     linkName: string;
 
-    constructor(p5: any, fromState: State, toState: State, curved: boolean, linkName: string) {
+    constructor(p5: any, fromState: State, toState: State, linkName: string) {
         this.fromState = fromState;
         this.toState = toState;
         this.p5 = p5;
-        this.curved = curved;
+        this.curved = toState.noLinksEnter >= 1 || toState === fromState;
         this.linkName = linkName;
+        fromState.noLinksExit++;
+        toState.noLinksEnter++;
     }
 
 
@@ -54,7 +56,7 @@ export default class StateLink {
 
         return [
             // creare linie
-            this.p5.strokeWeight(3),
+            this.p5.strokeWeight(2),
             this.curved === false ?
                 this.buildLine(fromStateCoords, toStateCoords, arrowFirstPointCoord, arrowSecondPointCoord, arrowThirdPointCoord) :
                 this.buildCurve(fromStateCoords, toStateCoords, arrowFirstPointCoord, arrowSecondPointCoord, arrowThirdPointCoord),
@@ -76,6 +78,7 @@ export default class StateLink {
 
             // creare arrow si colorarea cu negru a acesteia
             this.p5.fill('black'),
+
             // transpunere punct de rotatie
             this.p5.push(),
             this.p5.translate((toStateCoords.x + fromStateCoords.x) / 2, (toStateCoords.y + fromStateCoords.y) / 2),
@@ -106,20 +109,57 @@ export default class StateLink {
     buildCurve(fromStateCoords: any, toStateCoords: any, arrowFirstPointCoord: any, arrowSecondPointCoord: any, arrowThirdPointCoord: any) {
         const theta = this.calculateAngleBetweenTwoPoints(fromStateCoords.x, fromStateCoords.y, toStateCoords.x, toStateCoords.y);
 
+        let diameter, firstControlPoint, arrowCenter, curve;
+
+        // verificam daca state-ul are legatura cu el insusi
+        if (this.fromState === this.toState) {
+
+            // variabile pentru cazul in care state-ul are legatura cu el insusi
+
+            diameter = 100; // diametrul folosit
+
+            firstControlPoint = {
+                x: (fromStateCoords.x + toStateCoords.x) / 2,
+                y: fromStateCoords.y + diameter
+            };
+            arrowCenter = {
+                x: 5,
+                y: -2 * Math.sin(Math.PI / 2)
+            };
+            curve = [
+                this.p5.push(),
+                this.p5.translate(firstControlPoint.x, firstControlPoint.y),
+                this.p5.ellipse(0, -(diameter / 2), diameter / 1.7, diameter),
+                this.p5.pop(),
+            ];
+
+        } else {
+
+            // variabile pentru cazul in care state-ul n-are legatura cu el insusi
+
+            diameter = this.p5.dist(fromStateCoords.x, fromStateCoords.y, toStateCoords.x, toStateCoords.y); // diametrul arcului
 
 
-        const firstControlPoint = {
-            x: (fromStateCoords.x + toStateCoords.x) / 2,
-            y: (fromStateCoords.y + toStateCoords.y) / 2
+            firstControlPoint = {
+                x: (fromStateCoords.x + toStateCoords.x) / 2,
+                y: (fromStateCoords.y + toStateCoords.y) / 2
+            };
+
+            arrowCenter = {
+                x: diameter / 2 * Math.cos(Math.PI / 2),
+                y: -(diameter / 2) / 2 * Math.sin(Math.PI / 2)
+            };
+
+            curve = [
+                this.p5.push(),
+                this.p5.translate(firstControlPoint.x, firstControlPoint.y),
+                this.p5.rotate(theta),
+                this.p5.arc(0, 0, diameter, diameter / 2, Math.PI, 2 * Math.PI),
+                this.p5.pop(),
+            ];
+
         }
 
-        const diameter = this.p5.dist(fromStateCoords.x, fromStateCoords.y, toStateCoords.x, toStateCoords.y);
-
-
-        const arrowCenter = {
-            x: diameter / 2 * Math.cos(Math.PI / 2),
-            y: -(diameter / 1.5) / 2 * Math.sin(Math.PI / 2)
-        }
 
         arrowFirstPointCoord.x = arrowCenter.x + arrowFirstPointCoord.x;
         arrowFirstPointCoord.y = arrowCenter.y + arrowFirstPointCoord.y;
@@ -139,13 +179,7 @@ export default class StateLink {
             this.p5.point(80 * Math.cos(Math.PI / 2), -80 * Math.sin(Math.PI/2)),
             this.p5.pop(),*/
 
-
-
-            this.p5.push(),
-            this.p5.translate(firstControlPoint.x, firstControlPoint.y),
-            this.p5.rotate(theta),
-            this.p5.arc(0, 0, diameter, diameter / 1.5, Math.PI, 2 * Math.PI),
-            this.p5.pop(),
+            curve,
 
 
             this.p5.push(),
