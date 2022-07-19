@@ -6,6 +6,11 @@ export abstract class Utils {
 
     static MAXIMUM_LINKS = 6;
 
+    static initialDrawCoordinates = {
+        x:200,
+        y:400
+    }
+
     public static clampNumber(num:number, a:number, b:number) {
         return Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
     }
@@ -22,8 +27,7 @@ export abstract class Utils {
         return arr;
     }
 
-    public static generateLinks(states: State[], p5:any): StateLink[] {
-        var stateLinks:StateLink[] = [];
+    public static buildLinks(states: State[], p5:any) {
         var statesShuffled:State[] = this.shuffle(states); 
         for(let i = 0; i < states.length; i++) {
             /**
@@ -33,29 +37,28 @@ export abstract class Utils {
              * daca e mai mica decat MAXIMUM_LINKS, atunci nr de state-uri disponibile, va fi noul numar de state-uri maxime
              * cand calculam nr de state-uri disponibile, luam in calcul si state-ul insusi
              */
-            let numberOfPossibleLinks = states.length - states[i].noLinksExit;
+            let numberOfPossibleLinks = states.length - states[i].links.length;
             let maximumLinks = numberOfPossibleLinks < this.MAXIMUM_LINKS ? numberOfPossibleLinks + 1 : this.MAXIMUM_LINKS;
             let noOfLinks = Math.floor(this.clampNumber(Math.random() * maximumLinks, 2, maximumLinks - 1))
             for(let j = 0; j < noOfLinks; j++) {
                 let toStateIndex = Math.floor(Math.random() * statesShuffled.length);
                 let newStateLink = new StateLink(p5, states[i], statesShuffled[toStateIndex], j % 2 === 0 ? 'a' : 'b');
-                if(!this.stateLinkExists(stateLinks, newStateLink)) {
-                    stateLinks.push(newStateLink);
+                if(!this.stateLinkExists(states, newStateLink)) {
+                    states[i].links.push(newStateLink);
                 } else {
                     j--;
                 }
             }
         }
-        console.log(stateLinks);
-        return stateLinks;
     }
 
-    public static stateLinkExists(stateLinks:StateLink[], stateLink:StateLink) {
-        for(let i = 0; i < stateLinks.length; i++) {
-            if(stateLinks[i].fromState === stateLink.fromState && stateLinks[i].toState === stateLink.toState) {
-                console.log(stateLinks[i]);
-                console.log(stateLink);
-                return true;
+    public static stateLinkExists(states:State[], stateLink:StateLink) {
+        for(let i = 0; i < states.length; i++) {
+            let stateLinks = states[i].links;
+            for(let j = 0; j < stateLinks.length; j++) {
+                if(stateLinks[j].fromState === stateLink.fromState && stateLinks[j].toState === stateLink.toState) {
+                    return true;
+                }
             }
         }
         return false;
@@ -63,10 +66,16 @@ export abstract class Utils {
 
     public static generateStates(noOfStates:number, p5Var:any): State[] {
         var states:State[] = [];
+        var drawCoordinates = JSON.parse(JSON.stringify(this.initialDrawCoordinates));
         for (let i = 0; i < noOfStates; i++) {
-            states.push(new State(p5Var, 300 + (200 * i), 200, i.toString(), i === 0, i === noOfStates - 1));
+            drawCoordinates.x = this.initialDrawCoordinates.x + (200 * i);
+            states.push(new State(p5Var, drawCoordinates.x, drawCoordinates.y, i.toString(), i === 0, i === noOfStates - 1));
         }
         return states;
+    }
+
+    public static calculateAngleBetweenTwoPoints(x1: number, y1: number, x2: number, y2: number) {
+        return Math.atan2(y2 - y1, x2 - x1);
     }
 
 }

@@ -40,10 +40,17 @@
 
 .configure-btn{
   border-radius: 90px !important;
+  font-size: 1.5rem !important;
+}
+
+.configure-row {
   position: fixed;
   bottom: 3rem;
   right: 3rem;
-  padding: 24px;
+  width: 100%;
+}
+
+.language {
+  border-radius: 90px !important;
   font-size: 1.5rem !important;
-  padding: 16px 32px !important;
 }
