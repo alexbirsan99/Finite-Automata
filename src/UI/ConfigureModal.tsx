@@ -52,18 +52,6 @@ export const Configure = (props:{showSettings:boolean, onClose:Function, onGener
                 <div>
                     <label>Numar stari</label>
                     <input onChange={(element) => setNoStates(element.target.value as unknown as number)} id='noStates' min={0} placeholder='Introdu numarul...' type={'number'} className="form-control" />
-
-                    {/* <table>
-                        <thead>
-                            <tr>
-                                {buildTableHeader()}
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {buildTableRows()}
-                        </tbody>
-                    </table> */}
                 </div>
             </Modal.Body>
             <Modal.Footer>

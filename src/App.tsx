@@ -60,24 +60,26 @@ const App = () => {
     states.current.forEach(element => element.onRelease());
   }
 
+  function getVisibility() {
+    return states.current.length > 0 ? "visible" : "hidden";
+  }
+
   return (
     <div>
       <Sketch setup={setup} draw={draw} mouseReleased={mousedReleased} mouseDragged={mouseDragged} mousePressed={mousePressed} />
-      <div className="row">
-        <div className="row configure-row">
-          {/* <div className="col-sm-5">
-            <input className="form-control language" type="text" placeholder="Limbaj..." />
-          </div>
-          <div className="col-sm-3">
-            <Button onClick={() => setShowSettings(true)} variant="primary" size="lg" className="btn-primary configure-btn">
-              Start
-            </Button>
-          </div> */}
-          <div className="col-sm-3">
-            <Button onClick={() => setShowSettings(true)} variant="primary" size="lg" className="btn-primary configure-btn">
-              Configureaza
-            </Button>
-          </div>
+      <div className="row configure-row">
+        <div className="col-sm-7">
+          <input className={`${getVisibility()} form-control language`} type="text" placeholder="Limbaj..." />
+        </div>
+        <div className="col-sm-3">
+          <Button className={`${getVisibility()} btn-primary start-btn`} variant="primary" size="lg">
+            Parcurge automatismul
+          </Button>
+        </div>
+        <div className="col-sm-2">
+          <Button className="btn-primary configure-btn" onClick={() => setShowSettings(true)} variant="primary" size="lg" >
+            Configureaza
+          </Button>
         </div>
 
         <Configure showSettings={showSettings}

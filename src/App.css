@@ -38,19 +38,40 @@
 }
 
 
-.configure-btn{
+.configure-btn {
   border-radius: 90px !important;
   font-size: 1.5rem !important;
+  padding: 16px !important;
+  float: right !important;
 }
 
 .configure-row {
   position: fixed;
-  bottom: 3rem;
-  right: 3rem;
+  bottom: 4rem;
   width: 100%;
+  padding: 0px 4rem !important;
 }
 
 .language {
   border-radius: 90px !important;
   font-size: 1.5rem !important;
+  padding: 16px !important;
 }
+
+.start-btn {
+  background-color: #2dc653 !important;
+  border: 0px !important;
+  border-radius: 90px !important;
+  float: right !important;
+  font-size: 1.5rem !important;
+  padding: 16px !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+

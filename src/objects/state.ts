@@ -134,6 +134,8 @@ export default class State {
         if(this.isAbove(this.p5.mouseX, this.p5.mouseY)) {
             this.x = this.p5.mouseX;
             this.y = this.p5.mouseY;
+        } else {
+            this.color = Colors.WHITE;
         }
     }
 
