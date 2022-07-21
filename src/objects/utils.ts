@@ -4,9 +4,11 @@ import StateLink from "./state-link";
 
 export abstract class Utils {
 
-    static MAXIMUM_LINKS = 6;
+    private static selectedState:State;
 
-    static initialDrawCoordinates = {
+    private static MAXIMUM_LINKS = 6;
+
+    private static initialDrawCoordinates = {
         x:200,
         y:400
     }
@@ -78,4 +80,15 @@ export abstract class Utils {
         return Math.atan2(y2 - y1, x2 - x1);
     }
 
+    public static setSelectedState(state:State) {
+        this.selectedState = state;
+    }
+
+    public static clearSelectedState() {
+        this.selectedState = null as unknown as State;
+    }
+
+    public static getSelectedState():State {
+        return this.selectedState;
+    }
 }

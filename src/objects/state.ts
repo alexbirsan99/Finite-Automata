@@ -1,5 +1,6 @@
 import { Colors } from "./colors";
 import StateLink from "./state-link";
+import { Utils } from "./utils";
 
 
 export default class State {
@@ -125,13 +126,14 @@ export default class State {
     }
 
     public onClick() {
-        if(this.isAbove(this.p5.mouseX, this.p5.mouseY)) {
+        if(this.isAbove(this.p5.mouseX, this.p5.mouseY) && !Utils.getSelectedState()) {
             this.color = Colors.GREEN;
+            Utils.setSelectedState(this);
         }
     }
 
     public onDrag() {
-        if(this.isAbove(this.p5.mouseX, this.p5.mouseY)) {
+        if(this.isAbove(this.p5.mouseX, this.p5.mouseY) && Utils.getSelectedState() === this) {
             this.x = this.p5.mouseX;
             this.y = this.p5.mouseY;
         } else {
@@ -142,6 +144,7 @@ export default class State {
     public onRelease() {
         if(this.isAbove(this.p5.mouseX, this.p5.mouseY)) {
             this.color = Colors.WHITE;
+            Utils.clearSelectedState();
         }
     }
 }
