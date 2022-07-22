@@ -82,8 +82,9 @@ export abstract class Utils {
 
     public static setSelectedState(state:State) {
         this.selectedState = state;
-    }
 
+    }
+    
     public static clearSelectedState() {
         this.selectedState = null as unknown as State;
     }

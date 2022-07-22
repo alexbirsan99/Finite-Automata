@@ -1,5 +1,6 @@
 import { Colors } from "./colors";
 import StateLink from "./state-link";
+import { TraversalUtils } from "./traversal-utils";
 import { Utils } from "./utils";
 
 
@@ -25,7 +26,9 @@ export default class State {
 
     arrowSize = 15;
 
-    color:any = Colors.WHITE;
+    selectedColor:string = Colors.GREEN;
+
+    traversedColor:string = Colors.BLUE;
 
     constructor(p5: any, x: number, y: number, stateName: string, isInitialState: boolean, isFinalState: boolean) {
         this.p5 = p5;
@@ -41,7 +44,9 @@ export default class State {
         return [
 
             // desenarea state-ului
-            this.p5.fill(this.color), 
+            //this.p5.fill(this.selectedColor),
+            Utils.getSelectedState() === this ? this.p5.fill(this.selectedColor) : this.p5.fill(Colors.WHITE),
+            TraversalUtils.getCurrentTraversedState() === this ? this.p5.fill(this.traversedColor) : null, 
             this.p5.stroke(Colors.BLACK),
             this.p5.strokeWeight(2),
             this.p5.circle(this.x, this.y, this.diamater),
@@ -127,7 +132,7 @@ export default class State {
 
     public onClick() {
         if(this.isAbove(this.p5.mouseX, this.p5.mouseY) && !Utils.getSelectedState()) {
-            this.color = Colors.GREEN;
+            //this.selectedColor = Colors.GREEN;
             Utils.setSelectedState(this);
         }
     }
@@ -137,13 +142,13 @@ export default class State {
             this.x = this.p5.mouseX;
             this.y = this.p5.mouseY;
         } else {
-            this.color = Colors.WHITE;
+            //this.selectedColor = Colors.WHITE;
         }
     }
 
     public onRelease() {
         if(this.isAbove(this.p5.mouseX, this.p5.mouseY)) {
-            this.color = Colors.WHITE;
+            //this.selectedColor = Colors.WHITE;
             Utils.clearSelectedState();
         }
     }
