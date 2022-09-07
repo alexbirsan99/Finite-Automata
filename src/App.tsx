@@ -68,15 +68,15 @@ const App = () => {
     <div>
       <Sketch setup={setup} draw={draw} mouseReleased={mousedReleased} mouseDragged={mouseDragged} mousePressed={mousePressed} />
       <div className="row configure-row">
-        <div className="col-sm-7">
+        {/* <div className="col-sm-7">
           <input className={`${getVisibility()} form-control language`} type="text" placeholder="Limbaj..." />
         </div>
         <div className="col-sm-3">
           <Button className={`${getVisibility()} btn-primary start-btn`} variant="primary" size="lg">
             Parcurge automatismul
           </Button>
-        </div>
-        <div className="col-sm-2">
+        </div> */}
+        <div className="col-sm-12">
           <Button className="btn-primary configure-btn" onClick={() => setShowSettings(true)} variant="primary" size="lg" >
             Configureaza
           </Button>
